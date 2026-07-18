@@ -11,6 +11,11 @@ spring:
 
   kafka:
     topics:
+      file-update: file-update-topic
+      file-upload: file-upload-topic
+      file-failed: file-failed-topic
+      file-dlt: file-update-dlt-topic
+      file-completed: file-completed-topic
 
 
     bootstrap-servers: localhost:9092

@@ -4,7 +4,7 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.extension.MinioSaveException;
-import org.example.flowmanager.model.entity.ResultPathEntity;
+import org.example.flowmanager.model.dto.SendConversionDto;
 import org.example.flowmanager.util.FileGenerationId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,21 +23,24 @@ public class MinioService {
     private final FileGenerationId fileGenerationId;
 
 
-    public ResultPathEntity saveFileUpload(UUID userId, MultipartFile file) {
+    public SendConversionDto saveFileUpload(UUID fileId, MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
-        String keyFile = fileGenerationId.generateNameFiles(originalFilename);
+        String key = fileGenerationId.generateNameFiles(originalFilename);
         try (InputStream inputStream = file.getInputStream()) {
             minioClient.putObject(PutObjectArgs
                     .builder()
                     .bucket(bucketName)
-                    .object(keyFile)
-                    .object(userId.toString())
+                    .object(key)
                     .stream(inputStream, file.getSize(), -1)
                     .build());
         } catch (Exception ex) {
             throw new MinioSaveException("Error save file in Minio");
         }
-        return new ResultPathEntity(null, userId, bucketName, keyFile);
+        return new SendConversionDto(fileId.toString(), bucketName, key);
     }
+
+
+
+
 }
 

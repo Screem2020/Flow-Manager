@@ -2,19 +2,25 @@ package org.example.flowmanager.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.example.flowmanager.model.enums.FileRunStatus;
 
 import java.util.UUID;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table
-public class ResultPathEntity {
+@Setter
+@Getter
+@Table(name = "inbox_message")
+public class InboxMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private UUID userId;
     private String bucket;
     private String keyFile;
+    private FileRunStatus fileRunStatus;
 }

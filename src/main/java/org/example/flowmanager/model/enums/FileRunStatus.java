@@ -1,7 +1,7 @@
 package org.example.flowmanager.model.enums;
 
 public enum FileRunStatus {
-    IN_PROGRESS,
+    NEW,
     SUCCESS,
     FAILED
 }
