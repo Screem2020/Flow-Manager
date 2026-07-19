@@ -1,4 +1,4 @@
-package org.example.flowmanager.extension;
+package org.example.flowmanager.exception;
 
 public class ProcessSaveException extends RuntimeException {
     public ProcessSaveException(String message) {

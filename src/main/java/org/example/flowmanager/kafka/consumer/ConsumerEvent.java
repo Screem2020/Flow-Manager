@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional
-public class Consumer {
+public class ConsumerEvent {
 
     private final InboxRepository inboxRepository;
     private final FlowManager flowManager;

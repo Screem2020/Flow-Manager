@@ -1,7 +1,7 @@
 package org.example.flowmanager.util;
 
 import lombok.RequiredArgsConstructor;
-import org.example.flowmanager.extension.IncorrectFileFormat;
+import org.example.flowmanager.exception.IncorrectFileFormat;
 import org.example.flowmanager.model.enums.FormatConversion;
 import org.springframework.stereotype.Component;
 

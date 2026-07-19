@@ -5,7 +5,7 @@ import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.example.flowmanager.extension.InitMinioException;
+import org.example.flowmanager.exception.InitMinioException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 

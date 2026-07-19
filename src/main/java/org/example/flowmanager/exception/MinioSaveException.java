@@ -1,4 +1,4 @@
-package org.example.flowmanager.extension;
+package org.example.flowmanager.exception;
 
 public class MinioSaveException extends RuntimeException {
     public MinioSaveException(String message) {

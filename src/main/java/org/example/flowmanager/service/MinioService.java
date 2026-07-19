@@ -4,7 +4,7 @@ import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
-import org.example.flowmanager.extension.MinioSaveException;
+import org.example.flowmanager.exception.MinioSaveException;
 import org.example.flowmanager.model.dto.SendConversionDto;
 import org.example.flowmanager.util.FileGenerationId;
 import org.springframework.beans.factory.annotation.Value;
