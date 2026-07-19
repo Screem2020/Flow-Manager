@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.flowmanager.model.enums.FileRunStatus;
 
 import java.util.UUID;
 
@@ -19,8 +18,6 @@ public class InboxMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    private UUID userId;
-    private String bucket;
-    private String keyFile;
-    private FileRunStatus fileRunStatus;
+    private String fileId;
+    private String payload;
 }

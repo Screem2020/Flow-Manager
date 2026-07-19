@@ -2,6 +2,7 @@ package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.model.entity.OutboxTable;
+import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.model.enums.FileRunStatus;
 import org.example.flowmanager.repository.OutboxRepository;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ public class OutboxManager {
 
     public List<OutboxTable> saveOutboxTable() {
         Pageable pageable = PageRequest.of(0, 100);
-        var outboxByFileRunStatus = outboxRepository.findOutboxByFileRunStatus(FileRunStatus.NEW, pageable);
+        var outboxByFileRunStatus = outboxRepository.findOutboxByFileRunStatus(ConversionStatus.PROGRESS_FILE, pageable);
         return outboxByFileRunStatus.getContent();
     }
 }

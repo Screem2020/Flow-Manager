@@ -1,5 +1,6 @@
 package org.example.flowmanager.service;
 
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,19 @@ public class MinioService {
             throw new MinioSaveException("Error save file in Minio");
         }
         return new SendConversionDto(fileId.toString(), bucketName, key);
+    }
+
+    public InputStream getFile(String payload) {
+        try {
+            return minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(payload)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Could not get object from Minio" + payload, e);
+        }
     }
 
 
