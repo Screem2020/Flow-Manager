@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.util.UUID;
 
@@ -19,5 +20,7 @@ public class InboxMessage {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private String fileId;
+    @Column(columnDefinition = "jsonb")
+    @ColumnTransformer(write = "?::jsonb")
     private String payload;
 }

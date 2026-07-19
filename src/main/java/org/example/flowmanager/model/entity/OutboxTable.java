@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "outbox_table_manager")
+@Table(name = "outbox_table")
 public class OutboxTable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

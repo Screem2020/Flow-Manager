@@ -3,6 +3,15 @@ minio:
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: flow-manager
+
+shedlock:
+  name: taskSchedulerOutbox
+  lockAtLeastFor: PT1M
+  lockAtMostFor: PT5M
+
+scheduler:
+  fixed-rate: 1s
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/flow
@@ -12,10 +21,8 @@ spring:
   kafka:
     topics:
       file-update: file-update-topic
-      file-upload: file-upload-topic
       file-failed: file-failed-topic
       file-dlt: file-update-dlt-topic
-      file-completed: file-completed-topic
 
 
     bootstrap-servers: localhost:9092

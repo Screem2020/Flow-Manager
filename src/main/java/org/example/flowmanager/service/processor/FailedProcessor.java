@@ -15,6 +15,6 @@ public class FailedProcessor implements EventProcessor{
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendFailedEvent(kafkaTopics.getFailedTopic(), outboxTable.getUuid(), outboxTable.getPayload());
+        producerEvent.sendFailedEvent(kafkaTopics.getFileFailed(), outboxTable.getUuid(), outboxTable.getPayload());
     }
 }

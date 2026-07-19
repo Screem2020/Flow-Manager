@@ -13,7 +13,6 @@ import java.util.UUID;
 public class FileGenerationId {
     private final List<FormatConversion> files;
 
-
     private String getName(String nameFIle) {
         if (nameFIle == null) {
             return "file";

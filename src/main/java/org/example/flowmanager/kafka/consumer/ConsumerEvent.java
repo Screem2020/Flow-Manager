@@ -34,6 +34,5 @@ public class ConsumerEvent {
         inboxMessage.setFileId(event.getFileId());
         inboxMessage.setPayload(event.getPayload());
 
-        flowManager.processSendFile(inboxMessage);
     }
 }

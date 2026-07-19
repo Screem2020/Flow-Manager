@@ -1,7 +1,6 @@
 package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
-import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,15 +11,15 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class Scheduler {
+public class SchedulerJobService {
     private final OutboxManager outboxManager;
 
     @Transactional
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRateString = "${scheduler.fixed-rate}")
     @SchedulerLock(
-            name = "taskSchedulerOutbox",
-            lockAtLeastFor = "PT5M",
-            lockAtMostFor = "PT10M"
+            name = "${shedlock.name}",
+            lockAtLeastFor = "${shedlock.lockAtLeastFor}",
+            lockAtMostFor = "${shedlock.lockAtMostFor}"
     )
     public void jobScheduler() {
         List<OutboxTable> outboxTables = outboxManager.saveOutboxTable();

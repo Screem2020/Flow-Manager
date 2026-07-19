@@ -15,6 +15,6 @@ public class UpdateProcessor implements EventProcessor {
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendUpdateEvent(kafkaTopics.getUpdateTopic(),outboxTable.getUuid(), outboxTable.getPayload());
+        producerEvent.sendUpdateEvent(kafkaTopics.getFileUpdate(),outboxTable.getUuid(), outboxTable.getPayload());
     }
 }
