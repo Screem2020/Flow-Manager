@@ -28,7 +28,7 @@ public class LoadFileService {
     }
 
     public byte[] getFile(UUID fileId) {
-        InboxMessage inboxMessageByFileId = inboxRepository.findInboxMessageByFileId(fileId);
+        InboxMessage inboxMessageByFileId = inboxRepository.findInboxMessageByUuid(fileId);
         try (InputStream file = minioService.getFile(inboxMessageByFileId.getPayload())) {
             return file.readAllBytes();
         } catch (Exception e) {

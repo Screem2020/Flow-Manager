@@ -23,12 +23,12 @@ public class LoadFileController {
         return ResponseEntity.ok(flowManager.processUploadFile(file));
     }
 
-    @GetMapping("{/fileId}/status")
+    @GetMapping("/{fileId}/status")
     public ResponseEntity<ConversionStatus> getStatus(@PathVariable UUID fileId) {
         return ResponseEntity.ok(loadFileService.getStatus(fileId));
     }
 
-    @GetMapping("{/fileId}/download")
+    @GetMapping("/{fileId}/download")
     public ResponseEntity<byte[]> getFile(@PathVariable UUID fileId) {
         return ResponseEntity.ok(loadFileService.getFile(fileId));
     }

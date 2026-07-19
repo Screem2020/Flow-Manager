@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 001-create-inbox-table
+      id: 001-create-inbox-message
       author: misha
 
       changes:

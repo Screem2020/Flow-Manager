@@ -24,8 +24,8 @@ spring:
       file-failed: file-failed-topic
       file-dlt: file-update-dlt-topic
 
-
     bootstrap-servers: localhost:9092
+
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -36,4 +36,4 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
