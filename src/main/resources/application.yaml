@@ -24,7 +24,7 @@ spring:
       file-failed: file-failed-topic
       file-update-dlt: file-update-dlt-topic
 
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer

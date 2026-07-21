@@ -1,6 +1,7 @@
 package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -9,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SchedulerJobService {
     private final OutboxManager outboxManager;
     private final PolicyToLive policyToLive;
+
 
     @Transactional
     @Scheduled(fixedRateString = "${scheduler.fixed-rate}")
@@ -24,7 +27,8 @@ public class SchedulerJobService {
     )
     public void jobScheduler() {
         List<OutboxTable> outboxTables = outboxManager.saveOutboxTable();
-        if(outboxTables.isEmpty()){
+        if (outboxTables.isEmpty()) {
+            log.info("No event found");
             return;
         }
         for (OutboxTable outboxTable : outboxTables) {
@@ -32,9 +36,6 @@ public class SchedulerJobService {
             if (policyToLive.checkPolicyTimeToLive(outboxTable)) {
 
             }
-
-
-
 
 
         }

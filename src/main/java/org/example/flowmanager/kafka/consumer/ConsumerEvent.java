@@ -25,8 +25,8 @@ public class ConsumerEvent {
     )
     @KafkaListener(topics = "${spring.kafka.topics.file-update}")
     public void processConsumer(FileUploadDto event) {
-        boolean ExistId = inboxRepository.existById(event.getUuid());
-        if (ExistId) {
+        boolean ExistsId = inboxRepository.existsById(event.getUuid());
+        if (ExistsId) {
             return;
         }
 

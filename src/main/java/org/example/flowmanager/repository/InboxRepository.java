@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface InboxRepository extends JpaRepository<InboxMessage, UUID> {
-    boolean existById(UUID eventId);
+    boolean existsById(UUID eventId);
     InboxMessage findInboxMessageByUuid(UUID uuid);
 }

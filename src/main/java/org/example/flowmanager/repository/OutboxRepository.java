@@ -19,7 +19,7 @@ public interface OutboxRepository extends CrudRepository<OutboxTable, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("""
     select o from OutboxTable o
-    where o.conversionStatus = :status
+    where o.conversionStatus = :conversionStatus
 """)
     Page<@NonNull OutboxTable> findOutboxByFileRunStatus(ConversionStatus conversionStatus, Pageable pageable);
 
