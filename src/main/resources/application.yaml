@@ -4,13 +4,13 @@ minio:
   secret-key: minioadmin
   bucket-name: flow-manager
 
-shedlock:
-  name: taskSchedulerOutbox
-  lockAtLeastFor: PT1M
-  lockAtMostFor: PT5M
-
 scheduler:
   fixed-rate: 1s
+
+outbox:
+  check-lock:
+    max-attempts: 150
+    timeout: PT5M
 
 spring:
   datasource:

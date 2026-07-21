@@ -34,11 +34,9 @@ public class FlowManager {
                     null,
                     0,
                     ConversionStatus.PROGRESS_FILE,
-
                     FileRunStatus.NEW);
             outboxManager.save(outboxTable);
             return outboxTable.getConversionStatus();
-            //TODO: диспетчер и кафка
         } catch (RuntimeException e) {
             OutboxTable outboxTable = new OutboxTable();
             outboxTable.setConversionStatus(ConversionStatus.FAILED_FILE);

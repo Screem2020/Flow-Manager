@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class KafkaTopics {
-    private String fileUpload;
     private String fileUpdate;
     private String fileFailed;
     private String fileUpdateDlt;

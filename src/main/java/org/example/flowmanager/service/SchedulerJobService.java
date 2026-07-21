@@ -17,13 +17,23 @@ public class SchedulerJobService {
     @Transactional
     @Scheduled(fixedRateString = "${scheduler.fixed-rate}")
     @SchedulerLock(
-            name = "${shedlock.name}",
-            lockAtLeastFor = "${shedlock.lockAtLeastFor}",
-            lockAtMostFor = "${shedlock.lockAtMostFor}"
+            name = "TaskSchedulerOutbox",
+            lockAtLeastFor = "PT1M",
+            lockAtMostFor = "PT5M"
     )
     public void jobScheduler() {
         List<OutboxTable> outboxTables = outboxManager.saveOutboxTable();
+        if(outboxTables.isEmpty()){
+            return;
+        }
+        for (OutboxTable outboxTable : outboxTables) {
 
+
+
+
+
+
+
+        }
     }
-
 }
