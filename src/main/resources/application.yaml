@@ -22,7 +22,7 @@ spring:
     topics:
       file-update: file-update-topic
       file-failed: file-failed-topic
-      file-dlt: file-update-dlt-topic
+      file-update-dlt: file-update-dlt-topic
 
     bootstrap-servers: localhost:9092
 
