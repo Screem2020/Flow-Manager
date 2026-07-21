@@ -11,7 +11,6 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @Service
 public class PolicyToLive {
-
     @Value("${outbox.check-lock.max-attempts}")
     private Integer maxAttempts;
     @Value("${outbox.check-lock.timeout}")
@@ -25,11 +24,11 @@ public class PolicyToLive {
         Duration between = Duration.between(outboxTable.getTimeToLive(), Instant.now());
         return between.compareTo(timeout) > 0;
     }
-
+    //проверка времени и количество попыток на выход из доупстимых значений на каждой итерации
     public boolean checkPolicyTimeToLive(OutboxTable outboxTable) {
         return checkAttempts(outboxTable) && checkTimeLock(outboxTable);
     }
-
+    //установка начальных значений при первой итерации
     public void processTimeToLive(OutboxTable outboxTable) {
         if (outboxTable.getAttempts() == 0) {
             outboxTable.setTimeToLive(Instant.now());

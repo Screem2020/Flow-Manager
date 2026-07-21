@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchedulerJobService {
     private final OutboxManager outboxManager;
+    private final PolicyToLive policyToLive;
 
     @Transactional
     @Scheduled(fixedRateString = "${scheduler.fixed-rate}")
@@ -27,8 +28,10 @@ public class SchedulerJobService {
             return;
         }
         for (OutboxTable outboxTable : outboxTables) {
+            policyToLive.processTimeToLive(outboxTable);
+            if (policyToLive.checkPolicyTimeToLive(outboxTable)) {
 
-
+            }
 
 
 

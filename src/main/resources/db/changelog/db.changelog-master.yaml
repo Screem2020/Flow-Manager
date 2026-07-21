@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/001-create-inbox-message.yaml
   - include:
       file: db/changelog/changes/002-create-outbox-table.yaml
+  - include:
+      file: db/changelog/changes/003-create-shedlock-table.yaml
