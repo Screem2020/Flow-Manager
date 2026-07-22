@@ -22,7 +22,7 @@ public class PolicyToLive {
 
     private boolean checkTimeLock(OutboxTable outboxTable) {
         Duration between = Duration.between(outboxTable.getTimeToLive(), Instant.now());
-        return between.compareTo(timeout) > 0;
+        return between.compareTo(timeout) >= 0;
     }
     //проверка времени и количество попыток на выход из доупстимых значений на каждой итерации
     public boolean checkPolicyTimeToLive(OutboxTable outboxTable) {
@@ -30,7 +30,7 @@ public class PolicyToLive {
     }
     //установка начальных значений при первой итерации
     public void processTimeToLive(OutboxTable outboxTable) {
-        if (outboxTable.getAttempts() == 0) {
+        if (outboxTable.getTimeToLive() == null) {
             outboxTable.setTimeToLive(Instant.now());
         }
         outboxTable.setAttempts(outboxTable.getAttempts() + 1);

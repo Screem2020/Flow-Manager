@@ -2,8 +2,8 @@ package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.exception.ProcessSaveException;
+import org.example.flowmanager.model.dto.ReplyToUser;
 import org.example.flowmanager.model.dto.SendConversionDto;
-import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.model.enums.FileRunStatus;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -23,7 +24,7 @@ public class FlowManager {
     private final OutboxManager outboxManager;
     private final ObjectMapper objectMapper;
 
-    public ConversionStatus processUploadFile(MultipartFile file) {
+    public ReplyToUser processUploadFile(MultipartFile file) {
         try {
             UUID uuid = UUID.randomUUID();
             SendConversionDto sendConversionDto = minioService.saveFileUpload(uuid, file);
@@ -36,7 +37,7 @@ public class FlowManager {
                     ConversionStatus.PROGRESS_FILE,
                     FileRunStatus.NEW);
             outboxManager.save(outboxTable);
-            return outboxTable.getConversionStatus();
+            return new ReplyToUser(outboxTable.getUuid(), outboxTable.getConversionStatus());
         } catch (RuntimeException e) {
             OutboxTable outboxTable = new OutboxTable();
             outboxTable.setConversionStatus(ConversionStatus.FAILED_FILE);

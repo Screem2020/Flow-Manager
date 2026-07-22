@@ -35,15 +35,19 @@ public class SchedulerJobService {
             return;
         }
         for (OutboxTable outboxTable : outboxTables) {
-            // запуск счетчиков
-            policyToLive.processTimeToLive(outboxTable);
-            // проверка на не соблюдение времени и попыток
-            if (policyToLive.checkPolicyTimeToLive(outboxTable)) {
-                outboxTable.setConversionStatus(ConversionStatus.DLT_FILE);
-            } else {
+            try {
+                // запуск счетчиков
+                policyToLive.processTimeToLive(outboxTable);
+                // проверка на не соблюдение времени и попыток
+                if (policyToLive.checkPolicyTimeToLive(outboxTable)) {
+                    outboxTable.setConversionStatus(ConversionStatus.DLT_FILE);
+                } else {
+                    outboxTable.setFileRunStatus(FileRunStatus.SUCCESS);
+                }
                 dispatcher.dispatcher(outboxTable);
+            }catch (Exception e) {
+                outboxTable.setFileRunStatus(FileRunStatus.NEW);
             }
-            outboxTable.setFileRunStatus(FileRunStatus.NEW);
         }
     }
 }

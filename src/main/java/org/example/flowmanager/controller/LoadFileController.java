@@ -1,6 +1,7 @@
 package org.example.flowmanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.flowmanager.model.dto.ReplyToUser;
 import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.service.FlowManager;
 import org.example.flowmanager.service.LoadFileService;
@@ -19,7 +20,8 @@ public class LoadFileController {
     private final LoadFileService loadFileService;
 
     @PostMapping
-    public ResponseEntity<ConversionStatus> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ReplyToUser> uploadFile(@RequestParam("file") MultipartFile file) {
+        System.out.println("CONTROLLER START");
         return ResponseEntity.ok(flowManager.processUploadFile(file));
     }
 

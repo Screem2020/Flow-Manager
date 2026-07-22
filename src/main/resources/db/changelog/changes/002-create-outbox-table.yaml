@@ -25,7 +25,7 @@ databaseChangeLog:
                   name: time_to_live
                   type: timestamp(5)
                   constraints:
-                    nullable: false
+                    nullable: true
 
               - column:
                   name: attempts
