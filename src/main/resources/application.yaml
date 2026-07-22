@@ -7,6 +7,11 @@ minio:
 scheduler:
   fixed-rate: 1s
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 outbox:
   check-lock:
     max-attempts: 150

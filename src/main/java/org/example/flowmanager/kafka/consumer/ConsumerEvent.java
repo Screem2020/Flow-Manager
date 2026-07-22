@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.model.dto.FileUploadDto;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.repository.InboxRepository;
-import org.example.flowmanager.service.FlowManager;
 import org.springframework.kafka.annotation.BackOff;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConsumerEvent {
 
     private final InboxRepository inboxRepository;
-    private final FlowManager flowManager;
     @RetryableTopic(
             attempts = "4",
             backOff = @BackOff(delay = 5000)

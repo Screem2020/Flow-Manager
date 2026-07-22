@@ -4,6 +4,7 @@ import jakarta.persistence.LockModeType;
 import lombok.NonNull;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.example.flowmanager.model.enums.ConversionStatus;
+import org.example.flowmanager.model.enums.FileRunStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Lock;
@@ -21,7 +22,7 @@ public interface OutboxRepository extends CrudRepository<OutboxTable, UUID> {
     select o from OutboxTable o
     where o.conversionStatus = :conversionStatus
 """)
-    Page<@NonNull OutboxTable> findOutboxByFileRunStatus(ConversionStatus conversionStatus, Pageable pageable);
+    Page<@NonNull OutboxTable> findOutboxByFileRunStatus(FileRunStatus runStatus, Pageable pageable);
 
     OutboxTable findOutboxTableByUuidIs(UUID uuid);
 }

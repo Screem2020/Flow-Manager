@@ -22,7 +22,7 @@ public class OutboxManager {
 
     public List<OutboxTable> saveOutboxTable() {
         Pageable pageable = PageRequest.of(0, 100);
-        var outboxByFileRunStatus = outboxRepository.findOutboxByFileRunStatus(ConversionStatus.PROGRESS_FILE, pageable);
+        var outboxByFileRunStatus = outboxRepository.findOutboxByFileRunStatus(FileRunStatus.NEW, pageable);
         return outboxByFileRunStatus.getContent();
     }
 }
