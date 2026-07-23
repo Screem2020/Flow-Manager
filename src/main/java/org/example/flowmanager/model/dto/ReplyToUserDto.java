@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ReplyToUser {
+public class ReplyToUserDto {
     private UUID uuid;
     private ConversionStatus conversionStatus;
 }
