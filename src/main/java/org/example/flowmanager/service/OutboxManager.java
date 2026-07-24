@@ -21,7 +21,9 @@ public class OutboxManager {
 
     public List<OutboxTable> saveOutboxTable() {
         Pageable pageable = PageRequest.of(0, 100);
-        var outboxByFileRunStatus = outboxRepository.findOutboxByFileRunStatus(FileRunStatus.NEW, pageable);
-        return outboxByFileRunStatus.getContent();
+        return outboxRepository
+                .findOutboxByFileRunStatus(FileRunStatus.NEW, pageable)
+                .stream()
+                .toList();
     }
 }

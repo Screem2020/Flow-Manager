@@ -5,7 +5,7 @@ minio:
   bucket-name: flow-manager
 
 scheduler:
-  fixed-rate: 1s
+  fixed-rate: 3s
 
 eureka:
   client:
@@ -14,8 +14,8 @@ eureka:
 
 outbox:
   check-lock:
-    max-attempts: 150
-    timeout: PT5M
+    max-attempts: 300
+    timeout: PT1M
 
 spring:
   datasource:

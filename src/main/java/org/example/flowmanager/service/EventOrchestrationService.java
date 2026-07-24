@@ -36,16 +36,21 @@ public class EventOrchestrationService {
         }
         for (OutboxTable outboxTable : outboxTables) {
             try {
-                // запуск счетчиков
-                policyToLive.processTimeToLive(outboxTable);
                 // проверка на не соблюдение времени и попыток
                 if (policyToLive.checkPolicyTimeToLive(outboxTable)) {
+                    System.out.println("this dlt");
                     outboxTable.setConversionStatus(ConversionStatus.DLT_FILE);
+                    outboxTable.setFileRunStatus(FileRunStatus.FAILED);
+                } else if (outboxTable.getConversionStatus() == ConversionStatus.FAILED_FILE) {
+                    System.out.println("this failed");
+                    outboxTable.setFileRunStatus(FileRunStatus.FAILED);
                 } else {
+                    //начало отсчета, если успешная отправка
+                    policyToLive.processTimeToLive(outboxTable);
                     outboxTable.setFileRunStatus(FileRunStatus.SUCCESS);
                 }
                 dispatcher.dispatcher(outboxTable);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 outboxTable.setFileRunStatus(FileRunStatus.NEW);
             }
         }

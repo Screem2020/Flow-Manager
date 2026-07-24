@@ -16,10 +16,11 @@ public class PolicyToLive {
     @Value("${outbox.check-lock.timeout}")
     private Duration timeout;
 
+    //true если количетво попыток привышает допустимый лимит
     private boolean checkAttempts(OutboxTable outboxTable) {
         return maxAttempts <= outboxTable.getAttempts();
     }
-
+    // true если установленное время вышло
     private boolean checkTimeLock(OutboxTable outboxTable) {
         Duration between = Duration.between(outboxTable.getTimeToLive(), Instant.now());
         return between.compareTo(timeout) >= 0;

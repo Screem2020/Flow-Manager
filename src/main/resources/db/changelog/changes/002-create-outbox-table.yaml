@@ -19,7 +19,7 @@ databaseChangeLog:
                   name: payload
                   type: varchar(500)
                   constraints:
-                    nullable: false
+                    nullable: true
 
               - column:
                   name: time_to_live

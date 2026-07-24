@@ -2,7 +2,6 @@ package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.exception.FileUploadException;
-import org.example.flowmanager.exception.ProcessSaveException;
 import org.example.flowmanager.model.dto.ReplyToUserDto;
 import org.example.flowmanager.model.dto.SendConversionDto;
 import org.example.flowmanager.model.entity.InboxMessage;
@@ -12,6 +11,7 @@ import org.example.flowmanager.model.enums.FileRunStatus;
 import org.example.flowmanager.repository.InboxRepository;
 import org.example.flowmanager.repository.OutboxRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
@@ -46,9 +46,10 @@ public class LoadFileService {
         }
     }
 
+    @Transactional
     public ReplyToUserDto processUploadFile(MultipartFile file) {
+        UUID uuid = UUID.randomUUID();
         try {
-            UUID uuid = UUID.randomUUID();
             SendConversionDto sendConversionDto = minioService.saveFileUpload(uuid, file);
             String payload = objectMapper.writeValueAsString(sendConversionDto);
             OutboxTable outboxTable = new OutboxTable(
@@ -62,10 +63,10 @@ public class LoadFileService {
             return new ReplyToUserDto(
                     outboxTable.getUuid(),
                     outboxTable.getConversionStatus());
-        } catch (RuntimeException e) {
-            OutboxTable outboxTable = new OutboxTable();
-            outboxTable.setConversionStatus(ConversionStatus.FAILED_FILE);
-            throw new ProcessSaveException("Error saving uploaded file to Minio: " + e.getMessage());
+        } catch (Exception e) {
+            OutboxTable outboxTable = new OutboxTable(null, null, null, 0, ConversionStatus.FAILED_FILE, FileRunStatus.NEW);
+            outboxManager.save(outboxTable);
+            return new ReplyToUserDto(uuid, ConversionStatus.FAILED_FILE);
         }
     }
 }
