@@ -2,7 +2,6 @@ package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.model.entity.OutboxTable;
-import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.model.enums.FileRunStatus;
 import org.example.flowmanager.repository.OutboxRepository;
 import org.springframework.data.domain.PageRequest;

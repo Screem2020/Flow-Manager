@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SchedulerJobService {
+public class EventOrchestrationService {
     private final OutboxManager outboxManager;
     private final PolicyToLive policyToLive;
     private final Dispatcher dispatcher;

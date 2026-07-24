@@ -21,7 +21,7 @@ public class LoadFileController {
 
     @PostMapping
     public ResponseEntity<ReplyToUserDto> uploadFile(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(flowManager.processUploadFile(file));
+        return ResponseEntity.ok(loadFileService.processUploadFile(file));
     }
 
     @GetMapping("/{fileId}/status")

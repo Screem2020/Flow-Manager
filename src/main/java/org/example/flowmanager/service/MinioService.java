@@ -4,6 +4,7 @@ import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
+import org.example.flowmanager.exception.FileGetFromMinioException;
 import org.example.flowmanager.exception.MinioSaveException;
 import org.example.flowmanager.model.dto.SendConversionDto;
 import org.example.flowmanager.util.FileGenerationId;
@@ -49,12 +50,8 @@ public class MinioService {
                             .build()
             );
         } catch (Exception e) {
-            throw new RuntimeException("Could not get object from Minio" + payload, e);
+            throw new FileGetFromMinioException("Could not get object from Minio" + payload,e);
         }
     }
-
-
-
-
 }
 
