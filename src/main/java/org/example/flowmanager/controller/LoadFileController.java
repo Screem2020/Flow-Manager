@@ -3,7 +3,6 @@ package org.example.flowmanager.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.flowmanager.model.dto.ReplyToUserDto;
 import org.example.flowmanager.model.enums.ConversionStatus;
-import org.example.flowmanager.service.FlowManager;
 import org.example.flowmanager.service.LoadFileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/load")
 public class LoadFileController {
 
-    private  final FlowManager flowManager;
     private final LoadFileService loadFileService;
 
     @PostMapping
