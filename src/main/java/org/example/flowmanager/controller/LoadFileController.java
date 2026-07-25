@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/load")
+@RequestMapping("/api/v1/flow-manager")
 public class LoadFileController {
 
     private final LoadFileService loadFileService;

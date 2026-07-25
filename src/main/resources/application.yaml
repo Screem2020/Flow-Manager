@@ -7,10 +7,20 @@ minio:
 scheduler:
   fixed-rate: 3s
 
+server:
+  port: 8095
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 10
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
 
 outbox:
   check-lock:
