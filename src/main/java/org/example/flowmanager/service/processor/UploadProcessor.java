@@ -6,18 +6,17 @@ import org.example.flowmanager.kafka.KafkaTopics;
 import org.example.flowmanager.kafka.producer.ProducerEvent;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.springframework.stereotype.Service;
-
 @Slf4j
-@RequiredArgsConstructor
 @Service
-public class DltEventProcessor implements EventProcessor{
+@RequiredArgsConstructor
+public class UploadProcessor implements EventProcessor {
 
     private final ProducerEvent producerEvent;
     private final KafkaTopics kafkaTopics;
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendDltEvent(kafkaTopics.getFileUpdateDlt(), outboxTable.getUuid(), outboxTable.getPayload());
-        log.info("Send Event to DLT");
+        producerEvent.sendUploadEvent(kafkaTopics.getFileUpload(),outboxTable.getUuid(), outboxTable.getPayload());
+        log.info("Success Event sent to Kafka");
     }
 }

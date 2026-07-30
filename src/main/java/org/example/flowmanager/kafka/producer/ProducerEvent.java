@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ProducerEvent {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendUpdateEvent(String topic, UUID uuid, String payload) {
+    public void sendUploadEvent(String topic, UUID uuid, String payload) {
         kafkaTemplate.send(topic, uuid.toString(), payload);
     }
 

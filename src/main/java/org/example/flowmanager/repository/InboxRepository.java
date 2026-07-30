@@ -3,9 +3,7 @@ package org.example.flowmanager.repository;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.UUID;
-
-public interface InboxRepository extends JpaRepository<InboxMessage, UUID> {
-    boolean existsById(UUID eventId);
-    InboxMessage findInboxMessageByUuid(UUID uuid);
+public interface InboxRepository extends JpaRepository<InboxMessage, String> {
+    boolean existsByFileId(String fileUuid);
+    InboxMessage findByFileId(String fileId);
 }

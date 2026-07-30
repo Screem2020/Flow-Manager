@@ -1,17 +1,16 @@
 package org.example.flowmanager.util;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.flowmanager.exception.IncorrectFileFormat;
 import org.example.flowmanager.model.enums.FormatConversion;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
+@Slf4j
 @Component
-@RequiredArgsConstructor
 public class FileGenerationId {
-    private final List<FormatConversion> files;
 
     private String getName(String nameFIle) {
         if (nameFIle == null) {
@@ -25,24 +24,23 @@ public class FileGenerationId {
     }
 
     private String checkFormat(String nameFile) {
-        try {
-            if (nameFile == null) {
-                return null;
-            }
-            int index = nameFile.lastIndexOf(".");
-            if (index != -1 || index != nameFile.length() - 1) {
-                String format = nameFile.substring(index + 1);
-                return files.stream()
-                        .map(FormatConversion::toString)
-                        .filter(s -> s.equalsIgnoreCase(format)).findFirst().orElse("");
-            }
-        } catch (RuntimeException e) {
-            throw new IncorrectFileFormat("Incorrect format exception");
+        if (nameFile == null) {
+            return null;
+        }
+        int index = nameFile.lastIndexOf(".");
+        if (index != -1 && index != nameFile.length() - 1) {
+            String format = nameFile.substring(index + 1);
+            log.info("Format: {}", format);
+            return Arrays.stream(FormatConversion.values())
+                    .map(FormatConversion::name)
+                    .filter(s -> s.equalsIgnoreCase(format))
+                    .findFirst()
+                    .orElseThrow(() -> new IncorrectFileFormat(nameFile));
         }
         return "";
     }
 
     public String generateNameFiles(String nameFile) {
-        return UUID.randomUUID() + getName(nameFile) + checkFormat(nameFile);
+        return UUID.randomUUID() + "_" + getName(nameFile) + checkFormat(nameFile);
     }
 }

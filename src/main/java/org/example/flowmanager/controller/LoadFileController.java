@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.UUID;
 
 @RestController
@@ -17,7 +18,7 @@ public class LoadFileController {
 
     private final LoadFileService loadFileService;
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<ReplyToUserDto> uploadFile(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(loadFileService.processUploadFile(file));
     }
@@ -28,7 +29,7 @@ public class LoadFileController {
     }
 
     @GetMapping("/{fileId}/download")
-    public ResponseEntity<byte[]> getFile(@PathVariable UUID fileId) {
+    public ResponseEntity<InputStream> getFile(@PathVariable UUID fileId) {
         return ResponseEntity.ok(loadFileService.getFile(fileId));
     }
 }

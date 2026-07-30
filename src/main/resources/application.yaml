@@ -29,7 +29,7 @@ outbox:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/flow
+    url: jdbc:postgresql://localhost:5434/flow
     username: POSTGRES
     password: 12345
 
@@ -39,6 +39,7 @@ spring:
   kafka:
     topics:
       file-update: file-update-topic
+      file-upload: file-upload-topic
       file-failed: file-failed-topic
       file-update-dlt: file-update-dlt-topic
 

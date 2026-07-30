@@ -3,15 +3,14 @@ package org.example.flowmanager.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.flowmanager.model.enums.ConversionStatus;
 
 import java.util.UUID;
 
-
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class ReplyToUserDto {
+public class FileUpdateDto {
     private UUID uuid;
-    private ConversionStatus conversionStatus;
+    private String fileId;
+    private String payload;
 }

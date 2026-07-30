@@ -4,6 +4,7 @@ import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.flowmanager.exception.FileGetFromMinioException;
 import org.example.flowmanager.exception.MinioSaveException;
 import org.example.flowmanager.model.dto.SendConversionDto;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.UUID;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MinioService {
@@ -28,6 +29,7 @@ public class MinioService {
     public SendConversionDto saveFileUpload(UUID fileId, MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         String key = fileGenerationId.generateNameFiles(originalFilename);
+        log.info("Saving file {} to bucket {}", originalFilename, bucketName);
         try (InputStream inputStream = file.getInputStream()) {
             minioClient.putObject(PutObjectArgs
                     .builder()
@@ -43,6 +45,7 @@ public class MinioService {
 
     public InputStream getFile(String payload) {
         try {
+            log.info("Getting file {} from bucket {}", payload, bucketName);
             return minioClient.getObject(
                     GetObjectArgs.builder()
                             .bucket(bucketName)

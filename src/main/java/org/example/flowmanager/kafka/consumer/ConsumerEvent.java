@@ -1,36 +1,57 @@
 package org.example.flowmanager.kafka.consumer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.example.flowmanager.model.dto.FileUploadDto;
+import lombok.extern.slf4j.Slf4j;
+import org.example.flowmanager.exception.FileSaveMinioException;
+import org.example.flowmanager.model.dto.FileUpdateDto;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.repository.InboxRepository;
 import org.springframework.kafka.annotation.BackOff;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Slf4j
 public class ConsumerEvent {
 
     private final InboxRepository inboxRepository;
+    private final ObjectMapper objectMapper;
+
     @RetryableTopic(
             attempts = "4",
             backOff = @BackOff(delay = 5000)
     )
     @KafkaListener(topics = "${spring.kafka.topics.file-update}")
-    public void processConsumer(FileUploadDto event) {
-        boolean ExistsId = inboxRepository.existsById(event.getUuid());
-        if (ExistsId) {
-            return;
+    public void processConsumer(String event) {
+        log.info("Received file update event: {}", event);
+        try {
+            FileUpdateDto fileUpdateDto = objectMapper.readValue(event, FileUpdateDto.class);
+            log.info("Received file update event: {}", event);
+            if (inboxRepository.existsByFileId(fileUpdateDto.getFileId())) {
+                log.error("File with id {} already exists", fileUpdateDto.getFileId());
+                throw new FileSaveMinioException("File save failed");
+            }
+            saveInboxMessage(fileUpdateDto);
+        } catch (Exception e) {
+            log.error("Error while processing file update event: {}", event, e);
+            throw new FileSaveMinioException("File save failed");
         }
+    }
+    public void saveInboxMessage(FileUpdateDto fileUpdateDto) {
+        try {
+            InboxMessage inboxMessage = new InboxMessage();
+            inboxMessage.setFileId(fileUpdateDto.getFileId());
+            inboxMessage.setPayload(fileUpdateDto.getPayload());
+            log.info("Saving inbox message: {}",  fileUpdateDto.getPayload());
 
-        InboxMessage inboxMessage = new InboxMessage();
-        inboxMessage.setFileId(event.getFileId());
-        inboxMessage.setPayload(event.getPayload());
-
+            inboxRepository.save(inboxMessage);
+        } catch (Exception ex) {
+            log.info("Error while saving inbox message", ex);
+            throw new FileSaveMinioException("File save failed");
+        }
     }
 }

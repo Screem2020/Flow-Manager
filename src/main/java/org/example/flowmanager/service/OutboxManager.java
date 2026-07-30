@@ -1,6 +1,7 @@
 package org.example.flowmanager.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.example.flowmanager.model.enums.FileRunStatus;
 import org.example.flowmanager.repository.OutboxRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OutboxManager {
