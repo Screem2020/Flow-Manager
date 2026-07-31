@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -31,12 +32,11 @@ public class LoadFileService {
     private final OutboxManager outboxManager;
 
     public ConversionStatus getStatus(UUID fileId) {
-        try {
-            OutboxTable outboxTableByUuidIs = outboxRepository.findOutboxTableByUuidIs(fileId);
-            return outboxTableByUuidIs.getConversionStatus();
-        } catch (Exception e) {
-            throw new FileUploadException("Not able to find outbox table by id: " + fileId, e);
+        OutboxTable outboxTableByFileId = outboxRepository.findOutboxTableByFileId(fileId);
+        if (outboxTableByFileId == null) {
+            throw new FileUploadException("File not found");
         }
+        return  outboxTableByFileId.getConversionStatus();
     }
 
     public InputStream getFile(UUID fileUuid) {
@@ -51,10 +51,10 @@ public class LoadFileService {
                 fileUuid,
                 inboxMessageByFileId.getFileId(),
                 inboxMessageByFileId.getPayload());
-        try (InputStream file = minioService.getFile(fileUpdateDto.getPayload())) {
-            return file;
+        try {
+            return minioService.getFile(fileUpdateDto.getPayload());
         } catch (Exception e) {
-            throw new FileUploadException("Not able to read file by id: " + fileUuid, e);
+            throw new FileUploadException("Not able to read file by id: " + fileUuid);
         }
     }
 

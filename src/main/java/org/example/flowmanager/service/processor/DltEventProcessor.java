@@ -17,7 +17,7 @@ public class DltEventProcessor implements EventProcessor{
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendDltEvent(kafkaTopics.getFileUpdateDlt(), outboxTable.getUuid(), outboxTable.getPayload());
+        producerEvent.sendDltEvent(kafkaTopics.getFileUpdateDlt(), outboxTable.getFileId(), outboxTable.getPayload());
         log.info("Send Event to DLT");
     }
 }

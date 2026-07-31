@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -24,6 +25,6 @@ public interface OutboxRepository extends CrudRepository<OutboxTable, UUID> {
 """)
     Page<@NonNull OutboxTable> findOutboxByFileRunStatus(FileRunStatus fileRunStatus, Pageable pageable);
 
-    OutboxTable findOutboxTableByUuidIs(UUID uuid);
+    OutboxTable findOutboxTableByFileId(UUID fileId);
 }
 

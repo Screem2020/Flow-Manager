@@ -31,6 +31,12 @@ public class MinioService {
         String key = fileGenerationId.generateNameFiles(originalFilename);
         log.info("Saving file {} to bucket {}", originalFilename, bucketName);
         try (InputStream inputStream = file.getInputStream()) {
+            log.info(
+                    "Upload file: name={}, size={}, contentType={}",
+                    file.getOriginalFilename(),
+                    file.getSize(),
+                    file.getContentType()
+            );
             minioClient.putObject(PutObjectArgs
                     .builder()
                     .bucket(bucketName)

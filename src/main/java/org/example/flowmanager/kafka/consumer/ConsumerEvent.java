@@ -3,7 +3,7 @@ package org.example.flowmanager.kafka.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.flowmanager.exception.FileSaveMinioException;
+import org.example.flowmanager.exception.InboxProcessingException;
 import org.example.flowmanager.model.dto.FileUpdateDto;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.repository.InboxRepository;
@@ -30,15 +30,15 @@ public class ConsumerEvent {
         log.info("Received file update event: {}", event);
         try {
             FileUpdateDto fileUpdateDto = objectMapper.readValue(event, FileUpdateDto.class);
-            log.info("Received file update event: {}", event);
+            log.info("Event already processed: {}", fileUpdateDto.getFileId());
             if (inboxRepository.existsByFileId(fileUpdateDto.getFileId())) {
-                log.error("File with id {} already exists", fileUpdateDto.getFileId());
-                throw new FileSaveMinioException("File save failed");
+                log.info("Event {} already processed. Skip.", fileUpdateDto.getFileId());
+                return;
             }
             saveInboxMessage(fileUpdateDto);
         } catch (Exception e) {
             log.error("Error while processing file update event: {}", event, e);
-            throw new FileSaveMinioException("File save failed");
+            throw new InboxProcessingException("File save failed");
         }
     }
     public void saveInboxMessage(FileUpdateDto fileUpdateDto) {
@@ -51,7 +51,7 @@ public class ConsumerEvent {
             inboxRepository.save(inboxMessage);
         } catch (Exception ex) {
             log.info("Error while saving inbox message", ex);
-            throw new FileSaveMinioException("File save failed");
+            throw new InboxProcessingException("File save failed");
         }
     }
 }

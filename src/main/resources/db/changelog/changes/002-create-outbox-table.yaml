@@ -9,7 +9,7 @@ databaseChangeLog:
 
             columns:
               - column:
-                  name: uuid
+                  name: file_id
                   type: uuid
                   constraints:
                     nullable: false

@@ -16,7 +16,7 @@ public class UploadProcessor implements EventProcessor {
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendUploadEvent(kafkaTopics.getFileUpload(),outboxTable.getUuid(), outboxTable.getPayload());
+        producerEvent.sendUploadEvent(kafkaTopics.getFileUpload(),outboxTable.getFileId(), outboxTable.getPayload());
         log.info("Success Event sent to Kafka");
     }
 }
