@@ -33,6 +33,11 @@ spring:
     username: POSTGRES
     password: 12345
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   application:
     name: flow-manager
 

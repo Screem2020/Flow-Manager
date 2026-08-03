@@ -1,4 +1,14 @@
 services:
+  redis:
+    image: redis
+    container_name: redis
+
+    ports:
+      - "6379:6397"
+
+    networks:
+      - backend-network
+
   postgres:
     image: postgres:16
     container_name: flow-postgres
