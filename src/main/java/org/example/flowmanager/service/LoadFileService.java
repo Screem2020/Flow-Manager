@@ -60,6 +60,7 @@ public class LoadFileService {
 
     @Transactional
     public ReplyToUserDto processUploadFile(MultipartFile file) {
+        //TODO: написать класс по проверке подписки на наличие ограничений и вида подписки
         UUID uuid = UUID.randomUUID();
         SendConversionDto sendConversionDto = minioService.saveFileUpload(uuid, file);
         try {

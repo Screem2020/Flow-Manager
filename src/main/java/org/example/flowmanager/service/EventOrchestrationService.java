@@ -6,6 +6,7 @@ import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.model.enums.FileRunStatus;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
