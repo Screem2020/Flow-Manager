@@ -20,11 +20,11 @@ import java.util.UUID;
 public class LoadFileController {
 
     private final LoadFileService loadFileService;
-    private final SubscriptionService subscriptionService;
 
-    @PostMapping()
-    public ResponseEntity<ReplyToUserDto> uploadFile(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(loadFileService.processUploadFile(file));
+    @PostMapping("/upload")
+    public ResponseEntity<ReplyToUserDto> uploadFile(@RequestParam("file") MultipartFile file,
+                                                     @RequestHeader("X-User-Login") String login) {
+        return ResponseEntity.ok(loadFileService.processUploadFile(file, login));
     }
 
     @GetMapping("/{fileId}/status")
@@ -37,8 +37,8 @@ public class LoadFileController {
         return ResponseEntity.ok(loadFileService.getFile(fileId));
     }
 
-    @GetMapping("/subscription")
-    public void getLogin(@RequestHeader("X-User-Login") String login) {
-        ResponseEntity.ok(subscriptionService.checkSubscriptionLogin(login));
-    }
+//    @GetMapping("/subscription")
+//    public void getLogin(@RequestHeader("X-User-Login") String login) {
+//        ResponseEntity.ok(subscriptionService.checkSubscriptionLogin(login));
+//    }
 }

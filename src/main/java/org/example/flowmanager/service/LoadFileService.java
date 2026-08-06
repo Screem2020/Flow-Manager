@@ -6,12 +6,14 @@ import org.example.flowmanager.exception.FileUploadException;
 import org.example.flowmanager.model.dto.FileUpdateDto;
 import org.example.flowmanager.model.dto.ReplyToUserDto;
 import org.example.flowmanager.model.dto.SendConversionDto;
+import org.example.flowmanager.model.dto.SubscriptionCacheDto;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.example.flowmanager.model.enums.ConversionStatus;
 import org.example.flowmanager.model.enums.FileRunStatus;
 import org.example.flowmanager.repository.InboxRepository;
 import org.example.flowmanager.repository.OutboxRepository;
+import org.example.flowmanager.service.subscription_process.SubscriptionPolicy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,8 @@ public class LoadFileService {
     private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
     private final OutboxManager outboxManager;
+    private final SubscriptionPolicy subscriptionPolicy;
+    private final SubscriptionService subscriptionService;
 
     public ConversionStatus getStatus(UUID fileId) {
         OutboxTable outboxTableByFileId = outboxRepository.findOutboxTableByFileId(fileId);
@@ -59,8 +63,10 @@ public class LoadFileService {
     }
 
     @Transactional
-    public ReplyToUserDto processUploadFile(MultipartFile file) {
+    public ReplyToUserDto processUploadFile(MultipartFile file, String login) {
         //TODO: написать класс по проверке подписки на наличие ограничений и вида подписки
+        SubscriptionCacheDto subscriptionCacheDto = subscriptionService.checkSubscriptionLogin(login);
+        subscriptionPolicy.determiningTariff(subscriptionCacheDto, file);
         UUID uuid = UUID.randomUUID();
         SendConversionDto sendConversionDto = minioService.saveFileUpload(uuid, file);
         try {

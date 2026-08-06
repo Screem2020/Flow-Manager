@@ -2,7 +2,7 @@ package org.example.flowmanager.service.processor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.flowmanager.kafka.KafkaTopics;
+import org.example.flowmanager.config.KafkaTopicsConfig;
 import org.example.flowmanager.kafka.producer.ProducerEvent;
 import org.example.flowmanager.model.entity.OutboxTable;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class FailedProcessor implements EventProcessor{
+public class FailedProcessor implements EventProcessor {
 
     private final ProducerEvent producerEvent;
-    private final KafkaTopics kafkaTopics;
+    private final KafkaTopicsConfig kafkaTopicsConfig;
 
     @Override
     public void process(OutboxTable outboxTable) {
-        producerEvent.sendFailedEvent(kafkaTopics.getFileFailed(), outboxTable.getFileId(), outboxTable.getPayload());
+        producerEvent.sendFailedEvent(kafkaTopicsConfig.getFileFailed(), outboxTable.getFileId(), outboxTable.getPayload());
         log.info("Failed Event sent to Kafka");
     }
 }

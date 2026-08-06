@@ -27,6 +27,11 @@ outbox:
     max-attempts: 300
     timeout: PT1M
 
+subscription:
+  limits:
+    free:
+      - 100MB
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5434/flow
