@@ -7,6 +7,8 @@ import org.example.flowmanager.model.dto.SubscriptionCacheDto;
 import org.example.flowmanager.repository.SubscriptionRedisRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -15,7 +17,7 @@ public class SubscriptionService {
     private final SubscriptionClient subscriptionClient;
     private final SubscriptionRedisRepository subscriptionRedisRepository;
 
-//    public SubscriptionCacheDto checkSubscriptionLogin(String login) {
+    //    public SubscriptionCacheDto checkSubscriptionLogin(String login) {
 //        if (subscriptionRedisRepository.existsByLogin(login)) {
 //            log.info("Subscription exists for login {}", login);
 //            return subscriptionRedisRepository.findByLogin(login);
@@ -27,15 +29,15 @@ public class SubscriptionService {
 //        }
 //    }
     public SubscriptionCacheDto checkSubscriptionLogin(String login) {
-        SubscriptionCacheDto dto = subscriptionRedisRepository.findByLogin(login);
-        if (dto != null) {
-            log.info("Subscription exists for login {}", login);
-            return dto;
+        Optional<SubscriptionCacheDto> dto = subscriptionRedisRepository.findByLogin(login);
+        if (dto.isPresent()) {
+            log.info("Subscription login exists {}", login);
+            return dto.get();
         } else {
             log.info("Subscription not found for login {} save to Redis", login);
             SubscriptionCacheDto loginSubscriptionService = subscriptionClient.getLoginSubscriptionService(login);
             subscriptionRedisRepository.save(loginSubscriptionService);
-            return  loginSubscriptionService;
+            return loginSubscriptionService;
         }
     }
 }

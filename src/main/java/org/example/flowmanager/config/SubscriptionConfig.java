@@ -1,6 +1,5 @@
 package org.example.flowmanager.config;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.flowmanager.model.enums.SubscriptionStatus;
@@ -15,5 +14,5 @@ import java.util.Map;
 @Setter
 @ConfigurationProperties(prefix = "subscription.limits")
 public class SubscriptionConfig {
-    private Map<SubscriptionStatus, DataSize> free;
+    private Map<SubscriptionStatus, DataSize> tariff;
 }

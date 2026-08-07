@@ -29,8 +29,10 @@ outbox:
 
 subscription:
   limits:
-    free:
-      - 100MB
+    tariff:
+     free: 100MB
+     premium: 10GB
+
 
 spring:
   datasource:

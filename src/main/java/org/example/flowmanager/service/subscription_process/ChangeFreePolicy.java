@@ -21,7 +21,7 @@ public class ChangeFreePolicy implements SubscriptionPolicy {
 
     @Override
     public void determiningTariff(SubscriptionCacheDto subscriptionCacheDto, MultipartFile file) {
-        Map<SubscriptionStatus, DataSize> limitCard = subscriptionConfig.getFree();
+        Map<SubscriptionStatus, DataSize> limitCard = subscriptionConfig.getTariff();
         DataSize dataSize = limitCard.get(subscriptionCacheDto.getSubscriptionType());
         log.info("Tariff free file size: {} and limits: {}", file.getSize(), dataSize.toBytes());
         if (dataSize.toBytes() < file.getSize()) {
