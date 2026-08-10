@@ -64,7 +64,7 @@ public class LoadFileService {
 
     @Transactional
     public ReplyToUserDto processUploadFile(MultipartFile file, String login) {
-        //TODO: написать класс по проверке подписки на наличие ограничений и вида подписки
+        //результат из редис
         SubscriptionCacheDto subscriptionCacheDto = subscriptionService.checkSubscriptionLogin(login);
         subscriptionPolicy.determiningTariff(subscriptionCacheDto, file);
         UUID uuid = UUID.randomUUID();
@@ -73,7 +73,7 @@ public class LoadFileService {
             String payload = objectMapper.writeValueAsString(sendConversionDto);
             log.info("payload = {}", payload);
             OutboxTable outboxTable = new OutboxTable(
-                    null,
+                    uuid,
                     payload,
                     null,
                     0,
@@ -85,7 +85,7 @@ public class LoadFileService {
                     outboxTable.getConversionStatus());
         } catch (Exception e) {
             log.info("processUploadFile error", e);
-            OutboxTable outboxTable = new OutboxTable(null, null, null, 0, ConversionStatus.FAILED_FILE, FileRunStatus.NEW);
+            OutboxTable outboxTable = new OutboxTable(uuid, null, null, 0, ConversionStatus.FAILED_FILE, FileRunStatus.NEW);
             outboxManager.save(outboxTable);
             return new ReplyToUserDto(UUID.fromString(sendConversionDto.fileId()), ConversionStatus.FAILED_FILE);
         }

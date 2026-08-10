@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableFeignClients
 @EnableDiscoveryClient
-@EnableScheduling
 @SpringBootApplication
 public class FlowManagerApplication {
 

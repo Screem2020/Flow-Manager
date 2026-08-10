@@ -9,7 +9,7 @@ databaseChangeLog:
 
             columns:
               - column:
-                  name: uuid
+                  name: event_id
                   type: uuid
                   constraints:
                     nullable: false

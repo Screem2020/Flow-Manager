@@ -19,9 +19,4 @@ public class SubscriptionRedisRepository {
     public void save(SubscriptionCacheDto dto) {
         redisTemplate.opsForValue().set(dto.getLogin(), dto);
     }
-
-    public void delete(String login) {
-        redisTemplate.delete(login);
-    }
-
 }

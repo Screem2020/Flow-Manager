@@ -16,8 +16,7 @@ import java.util.UUID;
 @Table(name = "inbox_message")
 public class InboxMessage {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uuid;
+    private UUID eventId;
     private String fileId;
     private String payload;
 }

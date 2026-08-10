@@ -17,17 +17,6 @@ public class SubscriptionService {
     private final SubscriptionClient subscriptionClient;
     private final SubscriptionRedisRepository subscriptionRedisRepository;
 
-    //    public SubscriptionCacheDto checkSubscriptionLogin(String login) {
-//        if (subscriptionRedisRepository.existsByLogin(login)) {
-//            log.info("Subscription exists for login {}", login);
-//            return subscriptionRedisRepository.findByLogin(login);
-//        } else {
-//            log.info("Subscription not found for login {} save to Redis", login);
-//            SubscriptionCacheDto loginSubscriptionService = subscriptionClient.getLoginSubscriptionService(login);
-//            subscriptionRedisRepository.save(loginSubscriptionService);
-//            return  loginSubscriptionService;
-//        }
-//    }
     public SubscriptionCacheDto checkSubscriptionLogin(String login) {
         Optional<SubscriptionCacheDto> dto = subscriptionRedisRepository.findByLogin(login);
         if (dto.isPresent()) {

@@ -20,7 +20,6 @@ import java.util.UUID;
 @Table(name = "outbox_table")
 public class OutboxTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID fileId;
     @Column(columnDefinition = "jsonb")
     @ColumnTransformer(write = "?::jsonb")

@@ -23,7 +23,7 @@ databaseChangeLog:
 
               - column:
                   name: time_to_live
-                  type: timestamp(5)
+                  type: timestamp(6)
                   constraints:
                     nullable: true
 

@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileUpdateDto {
-    private UUID uuid;
+    private UUID eventId;
     private String fileId;
     private String payload;
 }

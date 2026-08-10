@@ -50,6 +50,7 @@ spring:
 
   kafka:
     topics:
+      file-subscription: file-upload-subscription-topic
       file-update: file-update-topic
       file-upload: file-upload-topic
       file-failed: file-failed-topic

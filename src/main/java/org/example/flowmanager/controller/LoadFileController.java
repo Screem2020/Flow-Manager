@@ -36,9 +36,4 @@ public class LoadFileController {
     public ResponseEntity<InputStream> getFile(@PathVariable UUID fileId) {
         return ResponseEntity.ok(loadFileService.getFile(fileId));
     }
-
-//    @GetMapping("/subscription")
-//    public void getLogin(@RequestHeader("X-User-Login") String login) {
-//        ResponseEntity.ok(subscriptionService.checkSubscriptionLogin(login));
-//    }
 }
