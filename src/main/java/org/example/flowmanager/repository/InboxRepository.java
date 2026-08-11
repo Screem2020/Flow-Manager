@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface InboxRepository extends JpaRepository<InboxMessage, String> {
-    boolean existsByFileId(String fileId);
     InboxMessage findByFileId(String fileId);
     boolean existsByEventId(UUID eventId);
 

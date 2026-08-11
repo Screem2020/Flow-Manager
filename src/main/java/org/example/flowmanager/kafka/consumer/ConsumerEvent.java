@@ -14,8 +14,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 
 @Component
 @RequiredArgsConstructor
@@ -71,24 +69,9 @@ public class ConsumerEvent {
                 log.info("Event {} already processed in subscription. Skip.", fileUpdateDto.getEventId());
                 return;
             }
-            saveInboxMessage(fileUpdateDto);
             uploadSubscriptionMessage.processReadSubscriptionMessage(fileUpdateDto.getLogin());
         } catch (Exception e) {
             log.error("Error while processing file subscription event: {}", event, e);
-        }
-    }
-
-    public void saveInboxMessage(SubscriptionCacheDto subscriptionUploadDto) {
-        try {
-            String dto = objectMapper.writeValueAsString(subscriptionUploadDto);
-            InboxMessage inboxMessage = new InboxMessage();
-            inboxMessage.setEventId(subscriptionUploadDto.getEventId());
-            inboxMessage.setFileId(subscriptionUploadDto.getLogin());
-            inboxMessage.setPayload(dto);
-            log.info("Saving inbox subscription message: {}", dto);
-            inboxRepository.save(inboxMessage);
-        } catch (Exception ex) {
-            log.info("Error while saving inbox message", ex);
         }
     }
 }
