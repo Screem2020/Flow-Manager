@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class LoadFileService {
     private final ObjectMapper objectMapper;
     private final OutboxManager outboxManager;
     private final SubscriptionPolicy subscriptionPolicy;
-    private final SubscriptionService subscriptionService;
+    private final SubscriptionCacheService subscriptionCacheService;
 
     public ConversionStatus getStatus(UUID fileId) {
         OutboxTable outboxTableByFileId = outboxRepository.findOutboxTableByFileId(fileId);
@@ -65,7 +64,7 @@ public class LoadFileService {
     @Transactional
     public ReplyToUserDto processUploadFile(MultipartFile file, String login) {
         //результат из редис
-        SubscriptionCacheDto subscriptionCacheDto = subscriptionService.checkSubscriptionLogin(login);
+        SubscriptionCacheDto subscriptionCacheDto = subscriptionCacheService.checkSubscriptionLogin(login);
         subscriptionPolicy.determiningTariff(subscriptionCacheDto, file);
         UUID uuid = UUID.randomUUID();
         SendConversionDto sendConversionDto = minioService.saveFileUpload(uuid, file);

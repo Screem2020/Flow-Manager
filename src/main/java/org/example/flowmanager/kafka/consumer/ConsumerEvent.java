@@ -8,7 +8,7 @@ import org.example.flowmanager.model.dto.FileUpdateDto;
 import org.example.flowmanager.model.dto.SubscriptionCacheDto;
 import org.example.flowmanager.model.entity.InboxMessage;
 import org.example.flowmanager.repository.InboxRepository;
-import org.example.flowmanager.service.UploadSubscriptionMessage;
+import org.example.flowmanager.service.SubscriptionCacheService;
 import org.springframework.kafka.annotation.BackOff;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -22,7 +22,7 @@ public class ConsumerEvent {
 
     private final InboxRepository inboxRepository;
     private final ObjectMapper objectMapper;
-    private final UploadSubscriptionMessage uploadSubscriptionMessage;
+    private final SubscriptionCacheService subscriptionCacheService;
 
     @RetryableTopic(
             attempts = "4",
@@ -69,7 +69,7 @@ public class ConsumerEvent {
                 log.info("Event {} already processed in subscription. Skip.", fileUpdateDto.getEventId());
                 return;
             }
-            uploadSubscriptionMessage.processReadSubscriptionMessage(fileUpdateDto.getLogin());
+            subscriptionCacheService.invalidateSubscriptionCache(fileUpdateDto.getLogin());
         } catch (Exception e) {
             log.error("Error while processing file subscription event: {}", event, e);
         }
