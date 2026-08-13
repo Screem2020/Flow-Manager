@@ -33,7 +33,6 @@ subscription:
      free: 100MB
      premium: 10GB
 
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5434/flow
@@ -69,3 +68,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  metrics:
+    tags:
+      application: flow-manager
