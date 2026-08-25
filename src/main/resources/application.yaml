@@ -1,0 +1,81 @@
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: flow-manager
+
+scheduler:
+  fixed-rate: 3s
+
+server:
+  port: 8095
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 10
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+
+outbox:
+  check-lock:
+    max-attempts: 300
+    timeout: PT1M
+
+subscription:
+  limits:
+    tariff:
+     free: 100MB
+     premium: 10GB
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/flow
+    username: POSTGRES
+    password: 12345
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  application:
+    name: flow-manager
+
+  kafka:
+    topics:
+      file-subscription: file-upload-subscription-topic
+      file-update: file-update-topic
+      file-upload: file-upload-topic
+      file-failed: file-failed-topic
+      file-update-dlt: file-update-dlt-topic
+
+    bootstrap-servers: localhost:29092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: Flow-manager
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  metrics:
+    tags:
+      application: flow-manager

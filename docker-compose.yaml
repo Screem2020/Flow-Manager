@@ -1,0 +1,58 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - backend-network
+
+  redis:
+    image: redis
+    container_name: redis
+
+    ports:
+      - "127.0.0.1:6379:6379"
+    networks:
+      - backend-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "127.0.0.1:9099:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+    networks:
+      - backend-network
+
+  postgres:
+    image: postgres:16
+    container_name: flow-postgres
+
+    environment:
+      POSTGRES_USER: POSTGRES
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: flow
+
+    ports:
+      - "127.0.0.1:5434:5432"
+
+    volumes:
+      - flow-postgres-data:/var/lib/postgresql/data
+
+    networks:
+      - backend-network
+
+volumes:
+  flow-postgres-data:
+  prometheus-data:
+  redis-data:
+  grafana-data:
+
+networks:
+  backend-network:
+    external: true

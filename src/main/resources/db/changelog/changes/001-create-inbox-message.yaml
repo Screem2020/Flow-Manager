@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-inbox-message
+      author: misha
+
+      changes:
+        - createTable:
+            tableName: inbox_message
+
+            columns:
+              - column:
+                  name: event_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+
+              - column:
+                  name: file_id
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: payload
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
